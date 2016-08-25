@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BsensorModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bike_power">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="int" Nullable="false" />
+          <Property Name="num_calc_power" Type="int" Nullable="false" />
+          <Property Name="avg_calc_power" Type="double" Nullable="false" />
+          <Property Name="ssd_calc_power" Type="double" Nullable="false" />
+          <Property Name="num_calc_torque" Type="int" Nullable="false" />
+          <Property Name="avg_calc_torque" Type="double" Nullable="false" />
+          <Property Name="ssd_calc_torque" Type="double" Nullable="false" />
+          <Property Name="num_calc_crank_cadence" Type="int" Nullable="false" />
+          <Property Name="avg_calc_crank_cadence" Type="double" Nullable="false" />
+          <Property Name="ssd_calc_crank_cadence" Type="double" Nullable="false" />
+          <Property Name="num_calc_wheel_speed" Type="int" Nullable="false" />
+          <Property Name="avg_calc_wheel_speed" Type="double" Nullable="false" />
+          <Property Name="ssd_calc_wheel_speed" Type="double" Nullable="false" />
+          <Property Name="num_calc_wheel_distance" Type="int" Nullable="false" />
+          <Property Name="avg_calc_wheel_distance" Type="double" Nullable="false" />
+          <Property Name="ssd_calc_wheel_distance" Type="double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="coord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trip_id" Type="uint" Nullable="false" />
+          <Property Name="recorded" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="latitude" Type="double" />
+          <Property Name="longitude" Type="double" />
+          <Property Name="altitude" Type="double" />
+          <Property Name="speed" Type="double" />
+          <Property Name="hAccuracy" Type="double" />
+          <Property Name="vAccuracy" Type="double" />
+        </EntityType>
+        <EntityType Name="heart_rate">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="int" Nullable="false" />
+          <Property Name="num_s" Type="int" Nullable="false" />
+          <Property Name="avg_s" Type="double" Nullable="false" />
+          <Property Name="ssd_s" Type="double" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'def.bsensor.pause' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="pause">
+          <Property Name="trip_id" Type="uint" />
+          <Property Name="pause_end" Type="timestamp" Precision="0" />
+          <Property Name="pause_start" Type="timestamp" Precision="0" />
+        </EntityType>-->
+        <EntityType Name="s_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="uint" />
+          <Property Name="sensor_id" Type="int" />
+          <Property Name="num_readings" Type="int" />
+          <Property Name="avg_s" Type="double" />
+          <Property Name="ssd_s" Type="double" />
+        </EntityType>
+        <EntityType Name="sensor_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sensors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.bsensor.shimmer_configs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="shimmer_configs">
+          <Key>
+            <PropertyRef Name="sc_trip_id" />
+            <PropertyRef Name="sc_bluetooth_id" />
+            <PropertyRef Name="sc_sampling_rate" />
+            <PropertyRef Name="sc_accel_range" />
+            <PropertyRef Name="sc_gsr_range" />
+            <PropertyRef Name="sc_battery_limit" />
+            <PropertyRef Name="sc_int_exp_power" />
+            <PropertyRef Name="sc_low_pwr_mag" />
+            <PropertyRef Name="sc_low_pwr_accel" />
+            <PropertyRef Name="sc_gyro" />
+            <PropertyRef Name="sc_5v_reg" />
+            <PropertyRef Name="sc_gyro_range" />
+            <PropertyRef Name="sc_mag_range" />
+            <PropertyRef Name="sc_pressure_range" />
+            <PropertyRef Name="sc_ref_electrode" />
+            <PropertyRef Name="sc_lead_off_detection" />
+            <PropertyRef Name="sc_lead_off_current" />
+            <PropertyRef Name="sc_lead_off_comparator" />
+            <PropertyRef Name="sc_exg_gain" />
+            <PropertyRef Name="sc_exg_res" />
+          </Key>
+          <Property Name="sc_trip_id" Type="int" Nullable="false" />
+          <Property Name="sc_bluetooth_id" Type="text" Nullable="false" />
+          <Property Name="sc_sampling_rate" Type="double" Nullable="false" />
+          <Property Name="sc_accel_range" Type="int" Nullable="false" />
+          <Property Name="sc_gsr_range" Type="int" Nullable="false" />
+          <Property Name="sc_battery_limit" Type="double" Nullable="false" />
+          <Property Name="sc_int_exp_power" Type="int" Nullable="false" />
+          <Property Name="sc_low_pwr_mag" Type="int" Nullable="false" />
+          <Property Name="sc_low_pwr_accel" Type="int" Nullable="false" />
+          <Property Name="sc_gyro" Type="int" Nullable="false" />
+          <Property Name="sc_5v_reg" Type="int" Nullable="false" />
+          <Property Name="sc_gyro_range" Type="int" Nullable="false" />
+          <Property Name="sc_mag_range" Type="int" Nullable="false" />
+          <Property Name="sc_pressure_range" Type="int" Nullable="false" />
+          <Property Name="sc_ref_electrode" Type="int" Nullable="false" />
+          <Property Name="sc_lead_off_detection" Type="int" Nullable="false" />
+          <Property Name="sc_lead_off_current" Type="int" Nullable="false" />
+          <Property Name="sc_lead_off_comparator" Type="int" Nullable="false" />
+          <Property Name="sc_exg_gain" Type="int" Nullable="false" />
+          <Property Name="sc_exg_res" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_ecg_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="int" Nullable="false" />
+          <Property Name="shimmer_sensor_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="float" Nullable="false" />
+          <Property Name="exg1_ch1" Type="double" Nullable="false" />
+          <Property Name="exg1_ch2" Type="double" Nullable="false" />
+          <Property Name="exg2_ch1" Type="double" Nullable="false" />
+          <Property Name="exg2_ch2" Type="double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_emg_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="int" Nullable="false" />
+          <Property Name="shimmer_sensor_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="float" Nullable="false" />
+          <Property Name="exg1_ch1" Type="double" Nullable="false" />
+          <Property Name="exg1_ch2" Type="double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="uint" />
+          <Property Name="shimmer_sensor_id" Type="int" />
+          <Property Name="num_s" Type="uint" />
+          <Property Name="avg_0" Type="double" />
+          <Property Name="avg_1" Type="double" />
+          <Property Name="avg_2" Type="double" />
+          <Property Name="std_0" Type="double" />
+          <Property Name="std_1" Type="double" />
+          <Property Name="std_2" Type="double" />
+        </EntityType>
+        <EntityType Name="shimmer_sensor_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_sensors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="20" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="uint" />
+          <Property Name="client_trip_id" Type="int" Nullable="false" />
+          <Property Name="start" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="stop" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="n_coord" Type="uint" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="app_version" Type="varchar" MaxLength="32" />
+          <Property Name="created" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="device" Type="varchar" MaxLength="64" />
+          <Property Name="deviceModel" Type="varchar" MaxLength="100" />
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="coord_id" Type="uint" />
+          <Property Name="sensor_id" Type="int" />
+          <Property Name="num_s" Type="uint" />
+          <Property Name="avg_x" Type="double" />
+          <Property Name="avg_y" Type="double" />
+          <Property Name="avg_z" Type="double" />
+          <Property Name="ssd_x" Type="double" />
+          <Property Name="ssd_y" Type="double" />
+          <Property Name="ssd_z" Type="double" />
+        </EntityType>
+        <EntityContainer Name="BsensorModelStoreContainer">
+          <EntitySet Name="bike_power" EntityType="Self.bike_power" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="coord" EntityType="Self.coord" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="heart_rate" EntityType="Self.heart_rate" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="s_sensor_readings" EntityType="Self.s_sensor_readings" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="sensor_types" EntityType="Self.sensor_types" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="sensors" EntityType="Self.sensors" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_ecg_readings" EntityType="Self.shimmer_ecg_readings" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_emg_readings" EntityType="Self.shimmer_emg_readings" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_sensor_readings" EntityType="Self.shimmer_sensor_readings" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_sensor_types" EntityType="Self.shimmer_sensor_types" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_sensors" EntityType="Self.shimmer_sensors" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="trip" EntityType="Self.trip" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="v_sensor_readings" EntityType="Self.v_sensor_readings" Schema="bsensor" store:Type="Tables" />
+          <EntitySet Name="shimmer_configs" EntityType="Self.shimmer_configs" store:Type="Tables" store:Schema="bsensor">
+            <DefiningQuery>SELECT
+`shimmer_configs`.`sc_trip_id`, 
+`shimmer_configs`.`sc_bluetooth_id`, 
+`shimmer_configs`.`sc_sampling_rate`, 
+`shimmer_configs`.`sc_accel_range`, 
+`shimmer_configs`.`sc_gsr_range`, 
+`shimmer_configs`.`sc_battery_limit`, 
+`shimmer_configs`.`sc_int_exp_power`, 
+`shimmer_configs`.`sc_low_pwr_mag`, 
+`shimmer_configs`.`sc_low_pwr_accel`, 
+`shimmer_configs`.`sc_gyro`, 
+`shimmer_configs`.`sc_5v_reg`, 
+`shimmer_configs`.`sc_gyro_range`, 
+`shimmer_configs`.`sc_mag_range`, 
+`shimmer_configs`.`sc_pressure_range`, 
+`shimmer_configs`.`sc_ref_electrode`, 
+`shimmer_configs`.`sc_lead_off_detection`, 
+`shimmer_configs`.`sc_lead_off_current`, 
+`shimmer_configs`.`sc_lead_off_comparator`, 
+`shimmer_configs`.`sc_exg_gain`, 
+`shimmer_configs`.`sc_exg_res`
+FROM `shimmer_configs` AS `shimmer_configs`</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BsensorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bike_power">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int32" Nullable="false" />
+          <Property Name="num_calc_power" Type="Int32" Nullable="false" />
+          <Property Name="avg_calc_power" Type="Double" Nullable="false" />
+          <Property Name="ssd_calc_power" Type="Double" Nullable="false" />
+          <Property Name="num_calc_torque" Type="Int32" Nullable="false" />
+          <Property Name="avg_calc_torque" Type="Double" Nullable="false" />
+          <Property Name="ssd_calc_torque" Type="Double" Nullable="false" />
+          <Property Name="num_calc_crank_cadence" Type="Int32" Nullable="false" />
+          <Property Name="avg_calc_crank_cadence" Type="Double" Nullable="false" />
+          <Property Name="ssd_calc_crank_cadence" Type="Double" Nullable="false" />
+          <Property Name="num_calc_wheel_speed" Type="Int32" Nullable="false" />
+          <Property Name="avg_calc_wheel_speed" Type="Double" Nullable="false" />
+          <Property Name="ssd_calc_wheel_speed" Type="Double" Nullable="false" />
+          <Property Name="num_calc_wheel_distance" Type="Int32" Nullable="false" />
+          <Property Name="avg_calc_wheel_distance" Type="Double" Nullable="false" />
+          <Property Name="ssd_calc_wheel_distance" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="coord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trip_id" Type="Int64" Nullable="false" />
+          <Property Name="recorded" Type="DateTime" Nullable="false" />
+          <Property Name="latitude" Type="Double" />
+          <Property Name="longitude" Type="Double" />
+          <Property Name="altitude" Type="Double" />
+          <Property Name="speed" Type="Double" />
+          <Property Name="hAccuracy" Type="Double" />
+          <Property Name="vAccuracy" Type="Double" />
+        </EntityType>
+        <EntityType Name="heart_rate">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int32" Nullable="false" />
+          <Property Name="num_s" Type="Int32" Nullable="false" />
+          <Property Name="avg_s" Type="Double" Nullable="false" />
+          <Property Name="ssd_s" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="s_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int64" />
+          <Property Name="sensor_id" Type="Int32" />
+          <Property Name="num_readings" Type="Int32" />
+          <Property Name="avg_s" Type="Double" />
+          <Property Name="ssd_s" Type="Double" />
+        </EntityType>
+        <EntityType Name="sensor_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sensor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_ecg_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int32" Nullable="false" />
+          <Property Name="shimmer_sensor_id" Type="Int32" Nullable="false" />
+          <Property Name="timestamp" Type="Single" Nullable="false" />
+          <Property Name="exg1_ch1" Type="Double" Nullable="false" />
+          <Property Name="exg1_ch2" Type="Double" Nullable="false" />
+          <Property Name="exg2_ch1" Type="Double" Nullable="false" />
+          <Property Name="exg2_ch2" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_emg_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int32" Nullable="false" />
+          <Property Name="shimmer_sensor_id" Type="Int32" Nullable="false" />
+          <Property Name="timestamp" Type="Single" Nullable="false" />
+          <Property Name="exg1_ch1" Type="Double" Nullable="false" />
+          <Property Name="exg1_ch2" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int64" />
+          <Property Name="shimmer_sensor_id" Type="Int32" />
+          <Property Name="num_s" Type="Int64" />
+          <Property Name="avg_0" Type="Double" />
+          <Property Name="avg_1" Type="Double" />
+          <Property Name="avg_2" Type="Double" />
+          <Property Name="std_0" Type="Double" />
+          <Property Name="std_1" Type="Double" />
+          <Property Name="std_2" Type="Double" />
+        </EntityType>
+        <EntityType Name="shimmer_sensor_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="shimmer_sensors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="trip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int64" />
+          <Property Name="client_trip_id" Type="Int32" Nullable="false" />
+          <Property Name="start" Type="DateTime" Nullable="false" />
+          <Property Name="stop" Type="DateTime" Nullable="false" />
+          <Property Name="n_coord" Type="Int64" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="app_version" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="created" Type="DateTime" Nullable="false" />
+          <Property Name="device" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="deviceModel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="v_sensor_readings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="coord_id" Type="Int64" />
+          <Property Name="sensor_id" Type="Int32" />
+          <Property Name="num_s" Type="Int64" />
+          <Property Name="avg_x" Type="Double" />
+          <Property Name="avg_y" Type="Double" />
+          <Property Name="avg_z" Type="Double" />
+          <Property Name="ssd_x" Type="Double" />
+          <Property Name="ssd_y" Type="Double" />
+          <Property Name="ssd_z" Type="Double" />
+        </EntityType>
+        <EntityType Name="shimmer_configs">
+          <Key>
+            <PropertyRef Name="sc_trip_id" />
+            <PropertyRef Name="sc_bluetooth_id" />
+            <PropertyRef Name="sc_sampling_rate" />
+            <PropertyRef Name="sc_accel_range" />
+            <PropertyRef Name="sc_gsr_range" />
+            <PropertyRef Name="sc_battery_limit" />
+            <PropertyRef Name="sc_int_exp_power" />
+            <PropertyRef Name="sc_low_pwr_mag" />
+            <PropertyRef Name="sc_low_pwr_accel" />
+            <PropertyRef Name="sc_gyro" />
+            <PropertyRef Name="sc_5v_reg" />
+            <PropertyRef Name="sc_gyro_range" />
+            <PropertyRef Name="sc_mag_range" />
+            <PropertyRef Name="sc_pressure_range" />
+            <PropertyRef Name="sc_ref_electrode" />
+            <PropertyRef Name="sc_lead_off_detection" />
+            <PropertyRef Name="sc_lead_off_current" />
+            <PropertyRef Name="sc_lead_off_comparator" />
+            <PropertyRef Name="sc_exg_gain" />
+            <PropertyRef Name="sc_exg_res" />
+          </Key>
+          <Property Name="sc_trip_id" Type="Int32" Nullable="false" />
+          <Property Name="sc_bluetooth_id" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sc_sampling_rate" Type="Double" Nullable="false" />
+          <Property Name="sc_accel_range" Type="Int32" Nullable="false" />
+          <Property Name="sc_gsr_range" Type="Int32" Nullable="false" />
+          <Property Name="sc_battery_limit" Type="Double" Nullable="false" />
+          <Property Name="sc_int_exp_power" Type="Int32" Nullable="false" />
+          <Property Name="sc_low_pwr_mag" Type="Int32" Nullable="false" />
+          <Property Name="sc_low_pwr_accel" Type="Int32" Nullable="false" />
+          <Property Name="sc_gyro" Type="Int32" Nullable="false" />
+          <Property Name="sc_5v_reg" Type="Int32" Nullable="false" />
+          <Property Name="sc_gyro_range" Type="Int32" Nullable="false" />
+          <Property Name="sc_mag_range" Type="Int32" Nullable="false" />
+          <Property Name="sc_pressure_range" Type="Int32" Nullable="false" />
+          <Property Name="sc_ref_electrode" Type="Int32" Nullable="false" />
+          <Property Name="sc_lead_off_detection" Type="Int32" Nullable="false" />
+          <Property Name="sc_lead_off_current" Type="Int32" Nullable="false" />
+          <Property Name="sc_lead_off_comparator" Type="Int32" Nullable="false" />
+          <Property Name="sc_exg_gain" Type="Int32" Nullable="false" />
+          <Property Name="sc_exg_res" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="bsensorEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bike_power" EntityType="Self.bike_power" />
+          <EntitySet Name="coords" EntityType="Self.coord" />
+          <EntitySet Name="heart_rate" EntityType="Self.heart_rate" />
+          <EntitySet Name="s_sensor_readings" EntityType="Self.s_sensor_readings" />
+          <EntitySet Name="sensor_types" EntityType="Self.sensor_types" />
+          <EntitySet Name="sensors" EntityType="Self.sensor" />
+          <EntitySet Name="shimmer_ecg_readings" EntityType="Self.shimmer_ecg_readings" />
+          <EntitySet Name="shimmer_emg_readings" EntityType="Self.shimmer_emg_readings" />
+          <EntitySet Name="shimmer_sensor_readings" EntityType="Self.shimmer_sensor_readings" />
+          <EntitySet Name="shimmer_sensor_types" EntityType="Self.shimmer_sensor_types" />
+          <EntitySet Name="shimmer_sensors" EntityType="Self.shimmer_sensors" />
+          <EntitySet Name="trips" EntityType="Self.trip" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="v_sensor_readings" EntityType="Self.v_sensor_readings" />
+          <EntitySet Name="shimmer_configs" EntityType="Self.shimmer_configs" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BsensorModelStoreContainer" CdmEntityContainer="bsensorEntities">
+          <EntitySetMapping Name="bike_power">
+            <EntityTypeMapping TypeName="BsensorModel.bike_power">
+              <MappingFragment StoreEntitySet="bike_power">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="num_calc_power" ColumnName="num_calc_power" />
+                <ScalarProperty Name="avg_calc_power" ColumnName="avg_calc_power" />
+                <ScalarProperty Name="ssd_calc_power" ColumnName="ssd_calc_power" />
+                <ScalarProperty Name="num_calc_torque" ColumnName="num_calc_torque" />
+                <ScalarProperty Name="avg_calc_torque" ColumnName="avg_calc_torque" />
+                <ScalarProperty Name="ssd_calc_torque" ColumnName="ssd_calc_torque" />
+                <ScalarProperty Name="num_calc_crank_cadence" ColumnName="num_calc_crank_cadence" />
+                <ScalarProperty Name="avg_calc_crank_cadence" ColumnName="avg_calc_crank_cadence" />
+                <ScalarProperty Name="ssd_calc_crank_cadence" ColumnName="ssd_calc_crank_cadence" />
+                <ScalarProperty Name="num_calc_wheel_speed" ColumnName="num_calc_wheel_speed" />
+                <ScalarProperty Name="avg_calc_wheel_speed" ColumnName="avg_calc_wheel_speed" />
+                <ScalarProperty Name="ssd_calc_wheel_speed" ColumnName="ssd_calc_wheel_speed" />
+                <ScalarProperty Name="num_calc_wheel_distance" ColumnName="num_calc_wheel_distance" />
+                <ScalarProperty Name="avg_calc_wheel_distance" ColumnName="avg_calc_wheel_distance" />
+                <ScalarProperty Name="ssd_calc_wheel_distance" ColumnName="ssd_calc_wheel_distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="coords">
+            <EntityTypeMapping TypeName="BsensorModel.coord">
+              <MappingFragment StoreEntitySet="coord">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="trip_id" ColumnName="trip_id" />
+                <ScalarProperty Name="recorded" ColumnName="recorded" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="altitude" ColumnName="altitude" />
+                <ScalarProperty Name="speed" ColumnName="speed" />
+                <ScalarProperty Name="hAccuracy" ColumnName="hAccuracy" />
+                <ScalarProperty Name="vAccuracy" ColumnName="vAccuracy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="heart_rate">
+            <EntityTypeMapping TypeName="BsensorModel.heart_rate">
+              <MappingFragment StoreEntitySet="heart_rate">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="num_s" ColumnName="num_s" />
+                <ScalarProperty Name="avg_s" ColumnName="avg_s" />
+                <ScalarProperty Name="ssd_s" ColumnName="ssd_s" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="s_sensor_readings">
+            <EntityTypeMapping TypeName="BsensorModel.s_sensor_readings">
+              <MappingFragment StoreEntitySet="s_sensor_readings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="sensor_id" ColumnName="sensor_id" />
+                <ScalarProperty Name="num_readings" ColumnName="num_readings" />
+                <ScalarProperty Name="avg_s" ColumnName="avg_s" />
+                <ScalarProperty Name="ssd_s" ColumnName="ssd_s" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sensor_types">
+            <EntityTypeMapping TypeName="BsensorModel.sensor_types">
+              <MappingFragment StoreEntitySet="sensor_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sensors">
+            <EntityTypeMapping TypeName="BsensorModel.sensor">
+              <MappingFragment StoreEntitySet="sensors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_ecg_readings">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_ecg_readings">
+              <MappingFragment StoreEntitySet="shimmer_ecg_readings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="shimmer_sensor_id" ColumnName="shimmer_sensor_id" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="exg1_ch1" ColumnName="exg1_ch1" />
+                <ScalarProperty Name="exg1_ch2" ColumnName="exg1_ch2" />
+                <ScalarProperty Name="exg2_ch1" ColumnName="exg2_ch1" />
+                <ScalarProperty Name="exg2_ch2" ColumnName="exg2_ch2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_emg_readings">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_emg_readings">
+              <MappingFragment StoreEntitySet="shimmer_emg_readings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="shimmer_sensor_id" ColumnName="shimmer_sensor_id" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="exg1_ch1" ColumnName="exg1_ch1" />
+                <ScalarProperty Name="exg1_ch2" ColumnName="exg1_ch2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_sensor_readings">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_sensor_readings">
+              <MappingFragment StoreEntitySet="shimmer_sensor_readings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="shimmer_sensor_id" ColumnName="shimmer_sensor_id" />
+                <ScalarProperty Name="num_s" ColumnName="num_s" />
+                <ScalarProperty Name="avg_0" ColumnName="avg_0" />
+                <ScalarProperty Name="avg_1" ColumnName="avg_1" />
+                <ScalarProperty Name="avg_2" ColumnName="avg_2" />
+                <ScalarProperty Name="std_0" ColumnName="std_0" />
+                <ScalarProperty Name="std_1" ColumnName="std_1" />
+                <ScalarProperty Name="std_2" ColumnName="std_2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_sensor_types">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_sensor_types">
+              <MappingFragment StoreEntitySet="shimmer_sensor_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_sensors">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_sensors">
+              <MappingFragment StoreEntitySet="shimmer_sensors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trips">
+            <EntityTypeMapping TypeName="BsensorModel.trip">
+              <MappingFragment StoreEntitySet="trip">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="client_trip_id" ColumnName="client_trip_id" />
+                <ScalarProperty Name="start" ColumnName="start" />
+                <ScalarProperty Name="stop" ColumnName="stop" />
+                <ScalarProperty Name="n_coord" ColumnName="n_coord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="BsensorModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="app_version" ColumnName="app_version" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="device" ColumnName="device" />
+                <ScalarProperty Name="deviceModel" ColumnName="deviceModel" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_sensor_readings">
+            <EntityTypeMapping TypeName="BsensorModel.v_sensor_readings">
+              <MappingFragment StoreEntitySet="v_sensor_readings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="coord_id" ColumnName="coord_id" />
+                <ScalarProperty Name="sensor_id" ColumnName="sensor_id" />
+                <ScalarProperty Name="num_s" ColumnName="num_s" />
+                <ScalarProperty Name="avg_x" ColumnName="avg_x" />
+                <ScalarProperty Name="avg_y" ColumnName="avg_y" />
+                <ScalarProperty Name="avg_z" ColumnName="avg_z" />
+                <ScalarProperty Name="ssd_x" ColumnName="ssd_x" />
+                <ScalarProperty Name="ssd_y" ColumnName="ssd_y" />
+                <ScalarProperty Name="ssd_z" ColumnName="ssd_z" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shimmer_configs">
+            <EntityTypeMapping TypeName="BsensorModel.shimmer_configs">
+              <MappingFragment StoreEntitySet="shimmer_configs">
+                <ScalarProperty Name="sc_trip_id" ColumnName="sc_trip_id" />
+                <ScalarProperty Name="sc_bluetooth_id" ColumnName="sc_bluetooth_id" />
+                <ScalarProperty Name="sc_sampling_rate" ColumnName="sc_sampling_rate" />
+                <ScalarProperty Name="sc_accel_range" ColumnName="sc_accel_range" />
+                <ScalarProperty Name="sc_gsr_range" ColumnName="sc_gsr_range" />
+                <ScalarProperty Name="sc_battery_limit" ColumnName="sc_battery_limit" />
+                <ScalarProperty Name="sc_int_exp_power" ColumnName="sc_int_exp_power" />
+                <ScalarProperty Name="sc_low_pwr_mag" ColumnName="sc_low_pwr_mag" />
+                <ScalarProperty Name="sc_low_pwr_accel" ColumnName="sc_low_pwr_accel" />
+                <ScalarProperty Name="sc_gyro" ColumnName="sc_gyro" />
+                <ScalarProperty Name="sc_5v_reg" ColumnName="sc_5v_reg" />
+                <ScalarProperty Name="sc_gyro_range" ColumnName="sc_gyro_range" />
+                <ScalarProperty Name="sc_mag_range" ColumnName="sc_mag_range" />
+                <ScalarProperty Name="sc_pressure_range" ColumnName="sc_pressure_range" />
+                <ScalarProperty Name="sc_ref_electrode" ColumnName="sc_ref_electrode" />
+                <ScalarProperty Name="sc_lead_off_detection" ColumnName="sc_lead_off_detection" />
+                <ScalarProperty Name="sc_lead_off_current" ColumnName="sc_lead_off_current" />
+                <ScalarProperty Name="sc_lead_off_comparator" ColumnName="sc_lead_off_comparator" />
+                <ScalarProperty Name="sc_exg_gain" ColumnName="sc_exg_gain" />
+                <ScalarProperty Name="sc_exg_res" ColumnName="sc_exg_res" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
